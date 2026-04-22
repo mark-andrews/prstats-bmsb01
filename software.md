@@ -58,12 +58,14 @@ It can be installed from GitHub using `devtools`:
 
 ```r
 install.packages("devtools")
-devtools::install_github("mark-andrews/priorexposure")
+devtools::install_git("https://github.com/mark-andrews/prstats-bmsb01", subdir = "priorexposure")
 ```
 
-When prompted to update dependent packages, you do not need to update them unless they are very out of date.
-You can also suppress the prompt with:
+When using these installation commands from `devtools`, you are routinely asked to update all dependent packages.
+Usually, you do *not* need to do this to get a working installation.
+If the dependent packages are relatively up to date, i.e. no more than a year old, then they should be fine, and you can skip any upgrading.
+You can also use `upgrade = 'never'` in the command itself, e.g. 
 
 ```r
-devtools::install_github("mark-andrews/priorexposure", upgrade = "never")
+devtools::install_git("https://github.com/mark-andrews/prstats-bmsb01", subdir = "priorexposure", upgrade = "never")
 ```
