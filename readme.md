@@ -41,6 +41,10 @@ Participants will learn to fit and interpret Bayesian linear regression models, 
 - Varying intercepts and varying slopes for grouped data
 - Mixed effects extensions of linear and generalised linear models
 
+### Slides and Notes
+
+Lecture slides and workshop notes can be found [here](https://courses.mjandrews.org/bayesian-data-analysis/)
+
 ### Format
 
 - Hands-on workshop with live coding demonstrations and guided practice
