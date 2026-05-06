@@ -45,6 +45,14 @@ Participants will learn to fit and interpret Bayesian linear regression models, 
 
 Lecture slides and workshop notes can be found [here](https://courses.mjandrews.org/bayesian-data-analysis/)
 
+### Data files
+
+Some of the data files that we will use can be loaded into R from these two commands:
+```r
+source("https://raw.githubusercontent.com/mark-andrews/ibdar/refs/heads/ibdar25/data/dl_data.R")
+source("https://raw.githubusercontent.com/mark-andrews/ibdar/refs/heads/ibdar25/data/sim_data.R")
+```
+
 ### Format
 
 - Hands-on workshop with live coding demonstrations and guided practice
