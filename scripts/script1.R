@@ -1,3 +1,5 @@
+library(priorexposure)
+
 n <- 250 # number of coin flips
 m <- 139 # number of heads
 
@@ -61,3 +63,14 @@ bernoulli_posterior_plot(n, m, alpha2, beta2)
 
 bernoulli_posterior_summary(n, m, alpha, beta)
 bernoulli_posterior_summary(n, m, alpha1, beta1)
+
+c(qbeta(0.025, shape1 = m + alpha, shape2 = n -m + beta),
+  qbeta(0.975, shape1 = m + alpha, shape2 = n -m + beta))
+
+get_beta_hpd(m + alpha, n - m + beta)
+
+# draw sample from posterior
+samples <- rbeta(1e6, m + alpha, n - m + beta)
+mean(samples)
+sd(samples)
+bernoulli_posterior_summary(n, m, alpha, beta)
