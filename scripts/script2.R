@@ -226,4 +226,5 @@ loo(M_17, M_16)
 # no correlation
 M_18 <- brm(Reaction ~ Days + (Days||Subject), data = sleepstudy)
 
-
+waic(M_18, M_16)
+loo(M_18, M_16)
