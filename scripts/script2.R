@@ -96,3 +96,134 @@ M_6 <- brm(weight ~ height + gender,
            warmup = 2000,
            save_pars = save_pars(all = TRUE), # for e.g. bayes factors
            data = weight_df)
+
+prior_summary(M_6)
+M_6
+fixef(M_6)
+fixef(M_5)
+
+M_7 <- lm(weight ~ height + gender + race, data = weight_df)
+summary(M_7)$coef
+confint(M_7)
+confint(M_7, parm = 'height')
+M_8 <- lm(weight ~ height + race, data = weight_df)
+anova(M_8, M_7)
+AIC(M_8, M_7)
+AIC(M_8) - AIC(M_7)
+AIC(M_7)
+logLik(M_7)
+
+library(emmeans)
+emmeans(M_7, specs = ~ gender)
+M_7_emm <- emmeans(M_7, specs = pairwise ~ race)
+summary(M_7_emm$contrasts, infer = TRUE)
+
+# No adjustment for multiplicity
+M_7_emm <- emmeans(M_7, specs = pairwise ~ race, adjust = 'none')
+summary(M_7_emm$contrasts, infer = TRUE)
+
+M_9 <- brm(weight ~ height + gender + race, data = weight_df)
+
+emmeans(M_9, specs = ~ gender)
+emmeans(M_9, specs = pairwise ~ race)$contrasts
+
+loo(M_9)
+
+M_10 <- brm(weight ~ height + race, data = weight_df)
+
+M_10
+
+loo(M_10)
+
+loo(M_10, M_9)
+c(-90.4 * -2, 12.6*2)
+
+
+waic(M_10, M_9)
+
+brms::bayes_R2(M_9)
+
+# Posterior predictive check ----------------------------------------------
+
+pp_check(M_9)
+pp_check(M_9, ndraws = 100)
+
+ggplot(weight_df, aes(x = weight)) + geom_density()
+
+ggplot(weight_df, aes(x = height, y = weight, colour = gender)) + geom_point() + stat_smooth(method = 'lm', se = F, fullrange = TRUE)
+
+
+
+M_11 <- brm(
+  bf(weight ~ height + gender + race, 
+     sigma ~ height + gender + race),
+  family = student(),
+  data = weight_df)
+
+pp_check(M_11, ndraws = 100)
+
+
+# M_11a <- brm(
+#   bf(weight ~ height + gender + race, 
+#      sigma ~ gender),
+#   family = student(),
+#   data = weight_df)
+
+waic(M_11, M_9)
+
+
+
+# Bayesian Poisson regression
+M_12 <- brm(publications ~ gender + married + children + prestige + mentor,
+            family = poisson(),
+            data = biochemists_df)
+
+# frequentist Poisson regression
+M_13 <- glm(publications ~ gender + married + children + prestige + mentor,
+            family = poisson(),
+            data = biochemists_df)
+summary(M_13)
+
+
+pp_check(M_12)
+
+M_14 <- brm(publications ~ gender + married + children + prestige + mentor,
+            family = negbinomial(),
+            data = biochemists_df)
+
+waic(M_14, M_12)
+loo(M_14, M_12)
+
+
+# Linear mixed effects ----------------------------------------------------
+
+library(lme4)
+ggplot(sleepstudy, aes(x=Days,y=Reaction)) + 
+  geom_point() +
+  stat_smooth(method = 'lm', se = F) +
+  facet_wrap(~Subject)
+
+
+M_15 <- lmer(Reaction ~ Days + (Days|Subject), data = sleepstudy)
+M_16 <- brm(Reaction ~ Days + (Days|Subject), data = sleepstudy)
+
+ranef(M_15) # lmer model
+coef(M_15)
+residuals(M_15)
+
+ranef(M_16) # Bayesian model
+
+summary(M_15)
+confint(M_15, signames = F)
+
+prior_summary(M_16)
+
+M_17 <- brm(Reaction ~ Days + (1|Subject), data = sleepstudy)
+
+waic(M_17, M_16)
+loo(M_17, M_16)
+
+# no correlation
+M_18 <- brm(Reaction ~ Days + (Days||Subject), data = sleepstudy)
+
+
